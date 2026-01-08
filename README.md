@@ -241,5 +241,3 @@ For support and questions, please open an issue in the repository.
 
 ## Screenshots
 <img width="1600" height="781" alt="image" src="https://github.com/user-attachments/assets/9ef89347-f1c4-4f9b-a963-d7af95f7c978" />
->>>>>>> f1d16320daf68398ccf46cb0da1fa505916e4e2a
-====
