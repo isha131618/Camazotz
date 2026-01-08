@@ -5,6 +5,7 @@ import { ArrowLeft, Save, AlertTriangle, Plus, Trash2, Bot, ChevronDown, Chevron
 import toast from 'react-hot-toast';
 import API from '../utils/axios';
 import AIAgent from '../components/AIAgent';
+import AIVoiceToText from '../components/AIVoiceToText';
 
 const MedicalHistoryForm = () => {
   const { id: patientId } = useParams();
@@ -218,13 +219,21 @@ const MedicalHistoryForm = () => {
             <h2 className="text-lg font-medium text-gray-900 mb-4 pb-2 border-b border-gray-100">
               Chief Complaint
             </h2>
-            <textarea
-              {...register('chiefComplaint', { required: 'Chief complaint is required' })}
-              onFocus={() => setFocusedField({ type: 'form', name: 'chiefComplaint' })}
-              rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Describe the patient's main reason for visit..."
-            />
+            <div className="relative">
+              <textarea
+                {...register('chiefComplaint', { required: 'Chief complaint is required' })}
+                onFocus={() => setFocusedField({ type: 'form', name: 'chiefComplaint' })}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                placeholder="Describe the patient's main reason for visit..."
+              />
+              <div className="absolute top-2 right-2">
+                <AIVoiceToText
+                  mode="raw"
+                  onTranscript={(text) => setValue('chiefComplaint', text)}
+                />
+              </div>
+            </div>
             {errors.chiefComplaint && (
               <p className="text-red-500 text-sm mt-1">{errors.chiefComplaint.message}</p>
             )}
@@ -256,13 +265,21 @@ const MedicalHistoryForm = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Progression</label>
-                <textarea
-                  {...register('presentIllness.progression')}
-                  onFocus={() => setFocusedField({ type: 'form', name: 'presentIllness.progression' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="How have symptoms changed over time?"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('presentIllness.progression')}
+                    onFocus={() => setFocusedField({ type: 'form', name: 'presentIllness.progression' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                    placeholder="How have symptoms changed over time?"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('presentIllness.progression', text)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

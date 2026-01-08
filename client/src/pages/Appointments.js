@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { 
+import {
   Calendar, 
   Plus, 
   Search, 
@@ -16,6 +16,7 @@ import {
   Stethoscope
 } from 'lucide-react';
 import axios from 'axios';
+import AIVoiceToText from '../components/AIVoiceToText';
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -284,12 +285,20 @@ const Appointments = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Reason for Visit *
                 </label>
-                <textarea
-                  {...register('reason', { required: 'Reason is required' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Describe the reason for this appointment..."
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('reason', { required: 'Reason is required' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 pr-12"
+                    placeholder="Describe the reason for this appointment..."
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('reason', text)}
+                    />
+                  </div>
+                </div>
                 {errors.reason && (
                   <p className="text-red-500 text-sm mt-1">{errors.reason.message}</p>
                 )}
@@ -299,12 +308,20 @@ const Appointments = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Notes
                 </label>
-                <textarea
-                  {...register('notes')}
-                  rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Additional notes..."
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('notes')}
+                    rows={2}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 pr-12"
+                    placeholder="Additional notes..."
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('notes', text)}
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex justify-end space-x-4">

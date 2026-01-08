@@ -13,6 +13,7 @@ import {
   Eye
 } from 'lucide-react';
 import axios from 'axios';
+import AIVoiceToText from '../components/AIVoiceToText';
 
 const Queries = () => {
   const [queries, setQueries] = useState([]);
@@ -25,7 +26,7 @@ const Queries = () => {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 
   useEffect(() => {
     fetchData();
@@ -239,12 +240,20 @@ const Queries = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Description *
                 </label>
-                <textarea
-                  {...register('description', { required: 'Description is required' })}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Describe your query in detail..."
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('description', { required: 'Description is required' })}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 pr-12"
+                    placeholder="Describe your query in detail..."
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('description', text)}
+                    />
+                  </div>
+                </div>
                 {errors.description && (
                   <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
                 )}

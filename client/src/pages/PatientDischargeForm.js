@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { 
+import {
   Save, 
   FileText, 
   User, 
@@ -18,6 +18,7 @@ import {
   Signature
 } from 'lucide-react';
 import API from '../utils/axios';
+import AIVoiceToText from '../components/AIVoiceToText';
 
 const PatientDischargeForm = () => {
   const navigate = useNavigate();
@@ -253,51 +254,99 @@ const PatientDischargeForm = () => {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Reason for Admission</label>
-                <textarea
-                  {...register('reasonForAdmission', { required: 'Reason for admission is required' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('reasonForAdmission', { required: 'Reason for admission is required' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('reasonForAdmission', text)}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Diagnosis at Admission</label>
-                <textarea
-                  {...register('diagnosisAtAdmission', { required: 'Diagnosis at admission is required' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('diagnosisAtAdmission', { required: 'Diagnosis at admission is required' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('diagnosisAtAdmission', text)}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Treatment Summary</label>
-                <textarea
-                  {...register('treatmentSummary', { required: 'Treatment summary is required' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('treatmentSummary', { required: 'Treatment summary is required' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('treatmentSummary', text)}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Reason for Discharge</label>
-                <textarea
-                  {...register('reasonForDischarge', { required: 'Reason for discharge is required' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('reasonForDischarge', { required: 'Reason for discharge is required' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('reasonForDischarge', text)}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Diagnosis at Discharge</label>
-                <textarea
-                  {...register('diagnosisAtDischarge', { required: 'Diagnosis at discharge is required' })}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('diagnosisAtDischarge', { required: 'Diagnosis at discharge is required' })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('diagnosisAtDischarge', text)}
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Further Treatment Plan</label>
-                <textarea
-                  {...register('furtherTreatmentPlan')}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('furtherTreatmentPlan')}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('furtherTreatmentPlan', text)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -312,11 +361,19 @@ const PatientDischargeForm = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                  <textarea
-                    {...register('patientContactInfo.address', { required: 'Address is required' })}
-                    rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                  <div className="relative">
+                    <textarea
+                      {...register('patientContactInfo.address', { required: 'Address is required' })}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                    />
+                    <div className="absolute top-2 right-2">
+                      <AIVoiceToText
+                        mode="raw"
+                        onTranscript={(text) => setValue('patientContactInfo.address', text)}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -453,12 +510,20 @@ const PatientDischargeForm = () => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
-                <textarea
-                  {...register('notes')}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Additional notes..."
-                />
+                <div className="relative">
+                  <textarea
+                    {...register('notes')}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-12"
+                    placeholder="Additional notes..."
+                  />
+                  <div className="absolute top-2 right-2">
+                    <AIVoiceToText
+                      mode="raw"
+                      onTranscript={(text) => setValue('notes', text)}
+                    />
+                  </div>
+                </div>
               </div>
 
               <div>

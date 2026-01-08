@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -37,70 +37,69 @@ function App() {
     };
   }, []);
 
-  if (!isAuthenticated) {
-    return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-        <Toaster 
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#363636',
-              color: '#fff',
-            },
-          }}
-        />
-      </Router>
-    );
-  }
+  const AuthenticatedLayout = () => {
+    if (!isAuthenticated) {
+      return <Navigate to="/login" />;
+    }
 
-  return (
-    <Router>
+    return (
       <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="flex">
           <Sidebar />
           <main className="flex-1 ml-64 mt-16">
             <div className="p-6">
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/patients" element={<Patients />} />
-                <Route path="/patients/register" element={<PatientRegistration />} />
-                <Route path="/patients/:id" element={<PatientDetail />} />
-                <Route path="/patients/:id/forms" element={<FormSelection />} />
-                <Route path="/patients/:id/forms/medical-history" element={<MedicalHistoryForm />} />
-                <Route path="/patients/:id/forms/clinical-examination" element={<ClinicalExaminationForm />} />
-                <Route path="/patients/:id/forms/diagnosis-treatment" element={<DiagnosisTreatmentForm />} />
-                <Route path="/patients/:id/forms/discharge" element={<PatientDischargeForm />} />
-                <Route path="/patients/:id/edit" element={<PatientRegistration />} />
-                <Route path="/patients/:patientId/discharge-form" element={<PatientDischargeForm />} />
-                <Route path="/discharge-forms/:formId" element={<DischargeFormView />} />
-                <Route path="/doctors" element={<Doctors />} />
-                <Route path="/appointments" element={<Appointments />} />
-                <Route path="/queries" element={<Queries />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/settings" element={<div>Settings Page</div>} />
-                <Route path="/" element={<Navigate to="/dashboard" />} />
-              </Routes>
+              <Outlet />
             </div>
           </main>
         </div>
-        <Toaster 
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#363636',
-              color: '#fff',
-            },
-          }}
-        />
       </div>
+    );
+  };
+
+  const LoginRoute = () => {
+    if (isAuthenticated) {
+      return <Navigate to="/dashboard" />;
+    }
+    return <Login />;
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<LoginRoute />} />
+        <Route element={<AuthenticatedLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/patients" element={<Patients />} />
+          <Route path="/patients/register" element={<PatientRegistration />} />
+          <Route path="/patients/:id" element={<PatientDetail />} />
+          <Route path="/patients/:id/forms" element={<FormSelection />} />
+          <Route path="/patients/:id/forms/medical-history" element={<MedicalHistoryForm />} />
+          <Route path="/patients/:id/forms/clinical-examination" element={<ClinicalExaminationForm />} />
+          <Route path="/patients/:id/forms/diagnosis-treatment" element={<DiagnosisTreatmentForm />} />
+          <Route path="/patients/:id/forms/discharge" element={<PatientDischargeForm />} />
+          <Route path="/patients/:id/edit" element={<PatientRegistration />} />
+          <Route path="/patients/:patientId/discharge-form" element={<PatientDischargeForm />} />
+          <Route path="/discharge-forms/:formId" element={<DischargeFormView />} />
+          <Route path="/doctors" element={<Doctors />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/queries" element={<Queries />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/settings" element={<div>Settings Page</div>} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+        }}
+      />
     </Router>
   );
 }

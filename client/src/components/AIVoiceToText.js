@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const AIVoiceToText = ({ formType, onTranscript, placeholder }) => {
+const AIVoiceToText = ({ formType, onTranscript, placeholder, mode = 'ai' }) => {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [interimTranscript, setInterimTranscript] = useState('');
@@ -49,6 +49,12 @@ const AIVoiceToText = ({ formType, onTranscript, placeholder }) => {
       }
 
       setInterimTranscript(interim);
+      if (mode === 'raw' && typeof onTranscript === 'function') {
+        const liveText = `${finalTranscriptRef.current}${interim}`.trim();
+        if (liveText) {
+          onTranscript(liveText);
+        }
+      }
     };
 
     recognition.onerror = (e) => {
@@ -86,14 +92,18 @@ const AIVoiceToText = ({ formType, onTranscript, placeholder }) => {
         return;
       }
 
-      const finalText = finalTranscriptRef.current.trim();
-      console.log('Final text for AI processing:', finalText);
-      setInterimTranscript('');
+    const finalText = finalTranscriptRef.current.trim();
+    console.log('Final text for AI processing:', finalText);
+    setInterimTranscript('');
 
-      if (finalText) {
+    if (finalText) {
+      if (mode === 'raw') {
+        onTranscript(finalText);
+      } else {
         await sendToAI(finalText);
       }
-    };
+    }
+  };
 
     return () => {
       if (recognitionRef.current) {
@@ -113,7 +123,7 @@ const AIVoiceToText = ({ formType, onTranscript, placeholder }) => {
   const sendToAI = async (text) => {
     setIsProcessing(true);
     try {
-      const res = await fetch('http://localhost:5001/api/medical-ai', {
+      const res = await fetch('/api/medical-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript: text, formType }),
